@@ -1,0 +1,56 @@
+version: '3.5'
+
+networks:
+  desafioNetwork:
+    name: desafioNetwork
+    driver: bridge
+
+services:
+
+  nginx_desafio:
+    container_name: nginx_desafio
+    hostname: nginx
+    build: 
+      context: ./nginx-proxy
+      dockerfile: Dockerfile
+    networks:
+      - desafioNetwork
+    ports:
+      - "80:80"
+    depends_on:
+      - nodeapp_desafio  
+
+  nodeapp_desafio:
+    container_name: nodeapp_desafio
+    build:
+      context: ./node-app
+      dockerfile: Dockerfile
+    volumes:
+      - ./node-app:/usr/src/app
+    networks:
+      - desafioNetwork
+    tty: true
+    ports:
+      - "3000:3000"
+    depends_on:
+      - database_desafio
+
+
+  database_desafio:
+    image: mysql:5.7
+    container_name: database_desafio
+    working_dir: /var/lib/mysql
+    command: --innodb-use-native-aio=0
+    restart: always
+    tty: true
+    ports:
+      - 3306:3306
+    expose:
+      - "3306"
+    volumes:
+      - ./databaseFiles_desafio:/var/lib/mysql
+    environment:
+      - MYSQL_DATABASE=nodedb
+      - MYSQL_ROOT_PASSWORD=root      
+    networks:
+      - desafioNetwork
