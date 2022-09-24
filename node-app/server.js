@@ -27,7 +27,6 @@ const retrieveRadomNames = ()=>{
         conn.query("SELECT NAME FROM PEOPLE;", (err, result, fields) => {
             if (err) throw err;
             states.users = result
-            console.log(states.users);
             conn.end()
         });
     });
@@ -44,14 +43,14 @@ const getPage = ()=>{
         <html>
         <head>
         </head>
-        <body>
+        <body style="background: #ccc">
         <div>
             <h2>
                 <p>Full Cycle Rocks!</p>
             </h2>
             <h3>Atualize a página para gerar novos dados na tabela.</h3>
             <h4><p>- Lista de nomes cadastrada no banco de dados.</p></h4>
-            <div style="width:300px; height:300px; background: #ccc; overflow: scroll">
+            <div style="width:300px; height:300px; background: #fff; overflow: scroll">
                 <ul>
                     ${list}
                 </ul>
@@ -64,8 +63,8 @@ const getPage = ()=>{
 }
 
 app.get("/", (req, res)=>{
-    insertRadomName()
     retrieveRadomNames()
+    insertRadomName()
     let page = getPage()    
     console.debug(page)
     res.send(page)
