@@ -24,13 +24,15 @@ const execQuery = async (query, callback) => {
     });
 }
 
-const insertRadomName = ()=>{
+const insertRadomName = (callback)=>{
     const name = (Math.random() + 1).toString(36).substring(2)
     const sql = `insert into PEOPLE(name) values('${name}');`
-    execQuery(sql)
+    execQuery(sql, (resp)=>{
+        return callback(resp)
+    })
 }
 
-const retrieveRadomNames = (callback)=>{
+const retrieveRadomNames = async (callback)=>{
     let sql = "select NAME from PEOPLE;"
     execQuery(sql, (resp)=>{
         return callback(resp)
@@ -70,7 +72,7 @@ const getPage = ()=>{
 }
 
 app.get("/", (req, res)=>{
-    insertRadomName()
+    insertRadomName(()=>{})
     retrieveRadomNames((resp)=>{
         states.users = resp
         let page = getPage()    
