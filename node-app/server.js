@@ -11,34 +11,37 @@ const dbConfig = {
     database: 'nodedb'
 }
 
-const insertRadomName = ()=>{
+const execQuery = (query) => {
     const conn = mysql.createConnection(dbConfig)
+    conn.connect( (err) => {
+        if (err) console.error(err.message);
+        conn.query(query, (err, result, fields) => {
+            if (err) console.error(err.message);
+            conn.end()
+            return result
+        });
+    });
+}
+
+const insertRadomName = ()=>{
     const name = (Math.random() + 1).toString(36).substring(2);
     const sql = `insert into PEOPLE(name) values('${name}');`
-    conn.query(sql)
-    conn.end()
+    execQuery(sql)
 }
 
 const retrieveRadomNames = ()=>{
-    const conn = mysql.createConnection(dbConfig)
-
-    conn.connect( (err) => {
-        if (err) throw err;
-        conn.query("SELECT NAME FROM PEOPLE;", (err, result, fields) => {
-            if (err) throw err;
-            states.users = result
-            console.log(states.users);
-            conn.end()
-        });
-    });
+    let sql = "SELECT NAME FROM PEOPLE;"
+    states.users = execQuery(sql)
 }
 
 const getPage = ()=>{
 
     let list = ""
-    states.users.forEach((user)=>{
-        list = list + `<li>${user.NAME}</li>\n`
-    })
+    if(states.users) {
+        states.users.forEach((user)=>{
+            list = list + `<li>${user.NAME}</li>\n`
+        })
+    }
 
     return `
         <html>

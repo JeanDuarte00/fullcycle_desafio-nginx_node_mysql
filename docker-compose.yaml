@@ -5,6 +5,10 @@ networks:
     name: desafioNetwork
     driver: bridge
 
+volumes:
+  node_modules:
+  database_volume:   
+
 services:
 
   nginx_desafio:
@@ -16,7 +20,7 @@ services:
     networks:
       - desafioNetwork
     ports:
-      - "80:80"
+      - "8080:80"
     depends_on:
       - nodeapp_desafio  
 
@@ -27,6 +31,7 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./node-app:/usr/src/app
+      - node_modules:/usr/src/app/node_modules
     networks:
       - desafioNetwork
     tty: true
@@ -48,7 +53,8 @@ services:
     expose:
       - "3306"
     volumes:
-      - ./databaseFiles_desafio:/var/lib/mysql
+      - database_volume:/var/lib/mysql
+      - ./scripts/:/var/lib/mysql/scripts    
     environment:
       - MYSQL_DATABASE=nodedb
       - MYSQL_ROOT_PASSWORD=root      
