@@ -11,33 +11,36 @@ const dbConfig = {
     database: 'nodedb'
 }
 
-const execQuery = (query) => {
+const execQuery = async (query, callback) => {
+    let response;
     const conn = mysql.createConnection(dbConfig)
     conn.connect( (err) => {
         if (err) console.error(err.message);
         conn.query(query, (err, result, fields) => {
             if (err) console.error(err.message);
             conn.end()
-            return result
+            return callback(result)
         });
     });
 }
 
 const insertRadomName = ()=>{
-    const name = (Math.random() + 1).toString(36).substring(2);
+    const name = (Math.random() + 1).toString(36).substring(2)
     const sql = `insert into PEOPLE(name) values('${name}');`
     execQuery(sql)
 }
 
-const retrieveRadomNames = ()=>{
-    let sql = "SELECT NAME FROM PEOPLE;"
-    states.users = execQuery(sql)
+const retrieveRadomNames = (callback)=>{
+    let sql = "select NAME from PEOPLE;"
+    execQuery(sql, (resp)=>{
+        return callback(resp)
+    })
 }
 
 const getPage = ()=>{
 
     let list = ""
-    if(states.users) {
+    if(states.users != undefined) {
         states.users.forEach((user)=>{
             list = list + `<li>${user.NAME}</li>\n`
         })
@@ -68,10 +71,11 @@ const getPage = ()=>{
 
 app.get("/", (req, res)=>{
     insertRadomName()
-    retrieveRadomNames()
-    let page = getPage()    
-    console.debug(page)
-    res.send(page)
+    retrieveRadomNames((resp)=>{
+        states.users = resp
+        let page = getPage()    
+        res.send(page)
+    })
 })
 
 app.listen(port, ()=>{
