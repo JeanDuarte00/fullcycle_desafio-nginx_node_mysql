@@ -55,5 +55,7 @@ services:
       - "3306"
     volumes:
       - ./mysql/database:/var/lib/mysql
+    env_file:
+     - ./environments/dev.env
     networks:
       - desafioNetwork
