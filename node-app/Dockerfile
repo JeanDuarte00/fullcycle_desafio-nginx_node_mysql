@@ -10,5 +10,5 @@ RUN apt-get update && npm install
 
 RUN chown -R www-data:www-data /usr/src/app
 
-CMD ["node", "server.js"]
+CMD ["npm", "run", "start:dev"]
 

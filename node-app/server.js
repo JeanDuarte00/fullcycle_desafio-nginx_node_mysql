@@ -1,14 +1,17 @@
+const {join} = require('path')
+require('dotenv').config({ path: join(__dirname, 'environments' ,'.env') })
 const  mysql = require("mysql")
 const express = require("express")
 const states = require("./globalStates")
 const app = express()
-const port = 3000
+const port = process.env.APP_PORT
 
 const dbConfig = {
-    host: 'database_desafio', //container name
-    user: 'root',
-    password: 'root',
-    database: 'nodedb'
+    host: process.env.DATABASE_CONTAINER_NAME,
+    user: process.env.DATABASE_USER,
+    password: process.env.DATABASE_PASSWORD,
+    database: process.env.DATABASE_NAME,
+    port: process.env.DATABASE_PORT
 }
 
 const execQuery = async (query, callback) => {

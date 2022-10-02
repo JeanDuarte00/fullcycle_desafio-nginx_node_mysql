@@ -4,11 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node -r dotenv/config server.js dotenv_config_path=./environments/.env",
+    "start:dev": "node -r dotenv/config server.js dotenv_config_path=./environments/dev.env",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^16.0.3",
     "express": "^4.18.1",
     "mysql": "^2.18.1"
   }
