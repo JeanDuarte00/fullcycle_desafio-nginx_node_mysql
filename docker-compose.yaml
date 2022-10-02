@@ -7,7 +7,6 @@ networks:
 
 volumes:
   node_modules:
-  database_volume:   
 
 services:
 
@@ -29,21 +28,23 @@ services:
     build:
       context: ./node-app
       dockerfile: Dockerfile
+    image: nodeapp_desafio_init
     volumes:
       - ./node-app:/usr/src/app
+      - ./environments:/usr/src/app/environments
       - node_modules:/usr/src/app/node_modules
     networks:
       - desafioNetwork
     tty: true
     ports:
-      - "3000:3000"
+      - 3000:3000
     depends_on:
-      - database_desafio
+      - mysql_desafio
 
 
-  database_desafio:
-    image: mysql:5.7
-    container_name: database_desafio
+  mysql_desafio:
+    image: mysql:${MYSQL_VERSION}
+    container_name: ${DATABASE_CONTAINER_NAME}
     working_dir: /var/lib/mysql
     command: --innodb-use-native-aio=0
     restart: always
@@ -53,10 +54,6 @@ services:
     expose:
       - "3306"
     volumes:
-      - database_volume:/var/lib/mysql
-      - ./scripts/:/var/lib/mysql/scripts    
-    environment:
-      - MYSQL_DATABASE=nodedb
-      - MYSQL_ROOT_PASSWORD=root      
+      - ./mysql/database:/var/lib/mysql
     networks:
       - desafioNetwork
