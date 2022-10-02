@@ -9,8 +9,8 @@ const port = process.env.APP_PORT
 const dbConfig = {
     host: process.env.DATABASE_CONTAINER_NAME,
     user: process.env.DATABASE_USER,
-    password: process.env.DATABASE_PASSWORD,
-    database: process.env.DATABASE_NAME,
+    password: process.env.MYSQL_ROOT_PASSWORD,
+    database: process.env.MYSQL_DATABASE,
     port: process.env.DATABASE_PORT
 }
 
