@@ -1,4 +1,4 @@
-version: '3.5'
+version: '3.8'
 
 networks:
   desafioNetwork:
@@ -9,6 +9,18 @@ volumes:
   node_modules:
 
 services:
+
+  adminer:
+    image: adminer
+    container_name: mysql_admin
+    restart: always
+    environment: 
+            ADMINER_DEFAULT_SERVER: ${DATABASE_CONTAINER_NAME}
+            ADMINER_DESIGN: dracula
+    ports:
+      - 8081:8080
+    networks:
+    - desafioNetwork
 
   nginx_desafio:
     container_name: nginx_desafio
@@ -21,7 +33,7 @@ services:
     ports:
       - "8080:80"
     depends_on:
-      - nodeapp_desafio  
+      - nodeapp_desafio
 
   nodeapp_desafio:
     container_name: nodeapp_desafio
@@ -39,9 +51,9 @@ services:
     ports:
       - 3000:3000
     depends_on:
-      - mysql_desafio
-
-
+      mysql_desafio:
+        condition: service_healthy
+    
   mysql_desafio:
     image: mysql:${MYSQL_VERSION}
     container_name: ${DATABASE_CONTAINER_NAME}
@@ -55,7 +67,13 @@ services:
       - "3306"
     volumes:
       - ./mysql/database:/var/lib/mysql
+      - ./mysql/scripts/:/var/lib/mysql/scripts
     env_file:
      - ./environments/dev.env
     networks:
       - desafioNetwork
+    healthcheck:
+        test: "mysql -uroot -proot --execute \"SHOW DATABASES;\""
+        interval: 2s
+        timeout: 20s
+        retries: 20

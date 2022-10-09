@@ -15,7 +15,6 @@ const dbConfig = {
 }
 
 const execQuery = async (query, callback) => {
-    let response;
     const conn = mysql.createConnection(dbConfig)
     conn.connect( (err) => {
         if (err) console.error(err.message);
@@ -84,5 +83,8 @@ app.get("/", (req, res)=>{
 })
 
 app.listen(port, ()=>{
+    execQuery(states.init_db_script, (resp)=>{
+        console.log("Manual init migration")
+    })
     console.log("Running on localhost:" + port)
 })

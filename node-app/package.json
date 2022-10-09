@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node -r dotenv/config server.js dotenv_config_path=./environments/.env",
     "start:dev": "node -r dotenv/config server.js dotenv_config_path=./environments/dev.env",
+    "start:test": "node -r dotenv/config server.js dotenv_config_path=./environments/test.env",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
