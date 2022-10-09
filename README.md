@@ -7,8 +7,17 @@ Deve ter ao menos a versão 1.29 do docker compose: https://www.digitalocean.com
 
 ### No terminal 
 - Execute: ```docker-compose --env-file ./environments/dev.env up```
-- Execute: ```docker exec -i mysql_desafio mysql -uroot -proot < ./mysql/scripts/create_table.sh```
 - Acesse : localhost:8080
+
+### Adminer
+ - Acesse: localhost:8081
+| Campo       | valor          | 
+| ----------- | ---------------|
+| System      | MySql          |
+| Server      | mysql_desafio  |
+| Username    | root           |
+| Password    | root           |
+| Database    | nodedb         |
 
 ### Descrição
 - Nginx como proxy reverso.
