@@ -14,9 +14,8 @@ services:
     image: adminer
     container_name: mysql_admin
     restart: always
-    environment: 
-            ADMINER_DEFAULT_SERVER: ${DATABASE_CONTAINER_NAME}
-            ADMINER_DESIGN: dracula
+    env_file:
+     - ./environments/dev.env
     ports:
       - 8081:8080
     networks:
