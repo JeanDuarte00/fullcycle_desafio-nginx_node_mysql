@@ -1,7 +1,8 @@
 # Desafio Full Cycle 
 
 ## Pré-requisito
-Deve ter ao menos a versão 1.29 do docker compose: https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-compose-on-ubuntu-20-04
+Nesta versão passo a utilizar o Healthcheck do docker-compose.
+Portanto, deve ter ao menos a versão 1.29 do docker compose: https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-compose-on-ubuntu-20-04
 - ```sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose```
 - ```sudo chmod +x /usr/local/bin/docker-compose```
 
