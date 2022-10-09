@@ -33,7 +33,7 @@ services:
       - "8080:80"
     depends_on:
       - nodeapp_desafio
-
+   
   nodeapp_desafio:
     container_name: nodeapp_desafio
     build:
@@ -50,6 +50,7 @@ services:
     ports:
       - 3000:3000
     depends_on:
+      # - mysql_desafio
       mysql_desafio:
         condition: service_healthy
     
@@ -66,13 +67,13 @@ services:
       - "3306"
     volumes:
       - ./mysql/database:/var/lib/mysql
-      - ./mysql/scripts/:/var/lib/mysql/scripts
+      - ./mysql/scripts/:/var/lib/scripts 
     env_file:
      - ./environments/dev.env
     networks:
       - desafioNetwork
     healthcheck:
         test: "mysql -uroot -proot --execute \"SHOW DATABASES;\""
-        interval: 2s
+        interval: 20s
         timeout: 20s
         retries: 20
