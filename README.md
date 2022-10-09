@@ -11,8 +11,9 @@ Deve ter ao menos a versão 1.29 do docker compose: https://www.digitalocean.com
 
 ### Adminer
  - Acesse: localhost:8081
+ 
 | Campo       | valor          | 
-| ----------- | ---------------|
+| ----------- | -------------- |
 | System      | MySql          |
 | Server      | mysql_desafio  |
 | Username    | root           |
