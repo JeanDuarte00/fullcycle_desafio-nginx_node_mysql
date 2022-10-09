@@ -9,7 +9,7 @@ Deve ter ao menos a versão 1.29 do docker compose: https://www.digitalocean.com
 - Execute: ```docker-compose --env-file ./environments/dev.env up```
 - Acesse : localhost:8080
 
-### Adminer
+### Adminer (phpMinAdmin)
  - Acesse: localhost:8081
  
 | Campo       | valor          | 
